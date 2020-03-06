@@ -11,29 +11,57 @@ namespace CSharpLessons
 		
         static void Main(string[] args)
         {
-			TextLogger logger = new TextLogger();
+			ILogger logger;
+
+			//read the type of logger from config file
+			string loggerType = "text";
+			switch (loggerType)
+			{
+				case "database":
+					logger = new DatabaseLogger();
+					break;
+				default:
+					logger = new TextLogger();
+					break;
+			}
+			 
+			LogManager logManager = new LogManager(logger);
+
 			try
 			{
 				throw new DivideByZeroException();
 			}
 			catch (Exception e)
 			{
-				logger.Log(e.Message);
+				logManager.Log(e.Message);
+				Console.ReadLine();
 			}
         }
     }
-	interface Logger
+	interface ILogger
 	{
 		void Log(string message);
 	}
-	class TextLogger
+	class LogManager
+	{
+		private ILogger _logger;
+		public LogManager(ILogger logger)
+		{
+			_logger = logger;
+		}
+		public void Log(string message)
+		{
+			_logger.Log(message);
+		}
+	}
+	class TextLogger : ILogger
 	{
 		public void Log(string message)
 		{
 			Console.WriteLine("Log to a text file: " + message);
 		}
 	}
-	class DatabaseLogger
+	class DatabaseLogger : ILogger
 	{
 		public void Log(string message)
 		{
