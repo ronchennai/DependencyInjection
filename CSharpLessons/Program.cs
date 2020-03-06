@@ -22,7 +22,10 @@ namespace CSharpLessons
 			}
         }
     }
-
+	interface Logger
+	{
+		void Log(string message);
+	}
 	class TextLogger
 	{
 		public void Log(string message)
