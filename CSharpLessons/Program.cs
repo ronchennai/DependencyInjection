@@ -30,5 +30,11 @@ namespace CSharpLessons
 			Console.WriteLine("Log to a text file: " + message);
 		}
 	}
-	
+	class DatabaseLogger
+	{
+		public void Log(string message)
+		{
+			Console.WriteLine("Log to a database: " + message);
+		}
+	}
 }
